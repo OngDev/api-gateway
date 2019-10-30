@@ -45,6 +45,16 @@
     "eslint:mac": "eslint ./",
     "eslint-fix:mac": "eslint ./ --fix"
   },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/tests/**"
+    ],
+    "all": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OngDev/api-gateway.git"
