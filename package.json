@@ -10,7 +10,7 @@
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "helmet": "^3.21.1",
-    "mongoose": "^5.7.3",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "rotating-file-stream": "^1.4.4"
   },
@@ -23,11 +23,13 @@
     "@babel/register": "^7.6.2",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "coveralls": "^3.0.7",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "mocha": "^6.2.1",
     "nodemon": "^1.19.3",
+    "nyc": "^14.1.1",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9"
   },
@@ -36,11 +38,22 @@
     "start-local": "nodemon --exec babel-node ./src/index.js",
     "prod": "node dist/api.bundle.js",
     "build": "webpack",
-    "test": "mocha --require @babel/register ./src/tests/*.test.js",
+    "test": "nyc --reporter=text mocha --require @babel/register ./src/tests/*.test.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "eslint:win": "eslint.cmd ./",
     "eslint-fix:win": "eslint.cmd ./ --fix",
-    "eslint:mac": "eslint ./",
-    "eslint-fix:mac": "eslint ./ --fix"
+    "eslint:unix": "eslint ./",
+    "eslint-fix:unix": "eslint ./ --fix"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/tests/**"
+    ],
+    "all": true
   },
   "repository": {
     "type": "git",
