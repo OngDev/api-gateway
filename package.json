@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "start-local": "nodemon --exec babel-node ./src/index.js",
+    "start-local": "nodemon --exec babel-node ./index.js",
     "prod": "node dist/api.bundle.js",
     "build": "webpack",
     "test": "nyc --reporter=text mocha --require @babel/register ./src/tests/*.test.js",
