@@ -1,17 +1,17 @@
 /* eslint-disable no-console */
 import sinon from 'sinon';
-import logger from '../logger/logger';
+import logger from '../../logger/logger';
 
 const assert = require('assert');
 
 
 describe('Logger should work properly', () => {
-  describe('#Existing object', () => {
+  describe('Existing object', () => {
     it('should have an object for logger', () => {
       assert.ok(logger, 'Logger is available');
     });
   });
-  describe('#Logger should show correct log', () => {
+  describe('Logger should show correct log', () => {
     beforeEach(() => {
       console.log = sinon.spy();
     });
