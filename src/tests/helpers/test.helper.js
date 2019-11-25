@@ -11,6 +11,7 @@ const prepareTestDatabase = () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
+        useFindAndModify: false,
       });
     mongoose.connection.once('open', () => {
       done();

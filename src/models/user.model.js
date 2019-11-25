@@ -16,15 +16,19 @@ const UserSchema = Schema(
         message: '{VALUE} is not a valid email!',
         isAsync: false,
       },
+      required: [true, 'Email is required!'],
     },
     fullName: {
       type: String,
       trim: true,
-      required: 'Fullname is required!',
+      required: [true, 'Fullname is required!'],
+      minlength: [3, 'Full name must be longer than 3'],
+      maxlength: [50, 'Full name must be shorter than 50'],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required!'],
+      minlength: [8, 'Password must be longer than 8'], // special/number/capital
     },
     tokens: [{
       token: {
@@ -66,11 +70,11 @@ UserSchema.statics.findByCredentials = async function findByCredentials(email, p
   // eslint-disable-next-line no-use-before-define
   const user = await UserModel.findOne({ email });
   if (!user) {
-    throw new Error('Invalid login credentials');
+    throw new Error('Login failed! Check authentication credentials');
   }
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
-    throw new Error('Invalid login credentials');
+    throw new Error('Login failed! Check authentication credentials');
   }
   return user;
 };
