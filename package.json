@@ -1,15 +1,20 @@
 {
-  "name": "api-gateway",
+  "name": "backend",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.6.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
+    "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "express-session": "^1.17.0",
     "helmet": "^3.21.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "rotating-file-stream": "^1.4.4",
@@ -22,13 +27,16 @@
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
     "@babel/register": "^7.6.2",
+    "@types/chai-as-promised": "^7.1.2",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.7",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "mocha": "^6.2.1",
+    "mocha-logger": "^1.0.6",
     "nodemon": "^1.19.3",
     "nyc": "^14.1.1",
     "sinon": "^7.5.0",
@@ -40,13 +48,14 @@
     "start-local": "nodemon --exec babel-node ./index.js",
     "prod": "node dist/api.bundle.js",
     "build": "webpack",
-    "test": "nyc --reporter=text mocha --require @babel/register ./src/tests/*.test.js",
+    "test": "nyc --reporter=text mocha --require @babel/register ./src/tests/**/*.test.js --exit",
+    "test-debug": "nyc --reporter=text mocha --require @babel/register ./src/tests/**/*.test.js --exit --inspect-brk",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "eslint:win": "eslint.cmd ./",
     "eslint-fix:win": "eslint.cmd ./ --fix",
     "eslint:unix": "eslint ./",
     "eslint-fix:unix": "eslint ./ --fix"
-  }, 
+  },
   "nyc": {
     "include": [
       "src/**/*.js"
@@ -59,13 +68,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OngDev/api-gateway.git"
+    "url": "git+https://github.com/OngDev/backend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/OngDev/api-gateway/issues"
+    "url": "https://github.com/OngDev/backend/issues"
   },
-  "homepage": "https://github.com/OngDev/api-gateway#readme"
+  "homepage": "https://github.com/OngDev/backend#readme"
 }

@@ -1,9 +1,9 @@
-import apiRoutes from '../routes/routes';
+import apiRoutes from '../../routes/routes';
 
 const assert = require('assert');
 
 describe('Routes should work properly', () => {
-  describe('#Router exists', () => {
+  describe('Router exists', () => {
     it('should have an object for api routes', () => {
       assert.ok(apiRoutes, 'ApiRouter is available');
     });
