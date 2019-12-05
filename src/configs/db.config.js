@@ -8,6 +8,9 @@ const connectDatabase = () => {
   mongoose
     .connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, {
       useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
     })
     .then(() => {
       logger.info('Successfully connected to the database');

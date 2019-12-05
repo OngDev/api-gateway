@@ -5,8 +5,6 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { join } from 'path';
 import rfs from 'rotating-file-stream';
-import session from 'express-session';
-import errorHandler from 'errorhandler';
 import dotenv from 'dotenv';
 import logger from './src/logger/logger';
 import connectDatabase from './src/configs/db.config';
@@ -16,6 +14,7 @@ dotenv.config();
 
 // configure isProduction variable
 const isProduction = process.env.NODE_ENV === 'production';
+const port = process.env.PORT || 3000;
 
 // defining the Express app
 const app = express();
@@ -38,19 +37,12 @@ const accessLogStream = rfs('access.log', {
 // adding morgan to log HTTP requests
 app.use(morgan('combined', { stream: accessLogStream }));
 
-// configure session
-app.use(session({
-  secret: 'vedgno',
-  cookie: { maxAge: 60000 },
-  resave: false,
-  saveUninitialized: false,
-}));
-
 // connect to mongo
 connectDatabase();
 
 if (!isProduction) {
-  app.use(errorHandler());
+  // eslint-disable-next-line global-require
+  app.use(require('errorhandler')());
 }
 
 app.get('/', (req, res) => {
@@ -92,8 +84,8 @@ app.use((err, req, res) => {
 });
 
 // starting the server
-app.listen(3001, () => {
-  logger.info('listening on port 3001');
+app.listen(port, () => {
+  logger.info(`listening on port ${port}`);
 });
 
 // Export our app for testing purposes
