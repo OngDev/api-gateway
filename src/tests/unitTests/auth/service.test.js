@@ -36,8 +36,13 @@ describe('Authentication service', () => {
       fullName: 'test user',
       password: 'password',
     });
+<<<<<<< HEAD
     const testToken = 'thisistesttoken';
     it('valid user data, should register successfully', test(async function testRegister() {
+=======
+    it('valid user data, should register successfully', test(async function testRegister() {
+      const testToken = 'thisistesttoken';
+>>>>>>> 847725e... Add controllers, update routes, middleware
       this.stub(UserModel.prototype, 'save');
       this.stub(UserModel.prototype, 'generateAuthToken').returns(testToken);
       const userData = await AuthService.register(user);
@@ -46,6 +51,7 @@ describe('Authentication service', () => {
       expect(userData.token).equals(testToken);
       expect(userData.user.email).equals(user.email);
     }));
+<<<<<<< HEAD
     it('empty user object data, should throw exception', test(async function testNullUserRegister() {
       const stub = this.stub(AuthService, 'register');
       try {
@@ -55,6 +61,8 @@ describe('Authentication service', () => {
       expect(stub, 'threw');
       expect(stub, 'threw', error);
     }));
+=======
+>>>>>>> 847725e... Add controllers, update routes, middleware
     it('invalid user data, should throw exception', test(async function testFailedRegister() {
       this.stub(UserModel.prototype, 'save').throws(error);
       const stub = this.stub(AuthService, 'register');
@@ -86,6 +94,7 @@ describe('Authentication service', () => {
       expect(userData.token).equals(testToken);
       expect(userData.user.email).equals(expectedUser.email);
     }));
+<<<<<<< HEAD
     it('empty user data, should throw exception', test(async function testNullLoginData() {
       const stub = this.stub(AuthService, 'login');
       try {
@@ -95,6 +104,8 @@ describe('Authentication service', () => {
       expect(stub, 'threw');
       expect(stub, 'threw', error);
     }));
+=======
+>>>>>>> 847725e... Add controllers, update routes, middleware
     it('invalid user data, should throw exception', test(async function testFailedLogin() {
       this.stub(UserModel, 'findByCredentials').throws(error);
       const stub = this.stub(AuthService, 'login');
@@ -132,9 +143,12 @@ describe('Authentication service', () => {
       });
       expect(loggedInUser.tokens.length).equals(2);
     }));
+<<<<<<< HEAD
     it('null user data, should throw exception', async () => {
       await expect(AuthService.logout({})).to.be.rejectedWith(Error);
     });
+=======
+>>>>>>> 847725e... Add controllers, update routes, middleware
     it('something went wrong, should throw exception', test(async function testFailedLogout() {
       this.stub(UserModel.prototype, 'save').throws(error);
       const stub = this.stub(AuthService, 'logout');
@@ -176,9 +190,12 @@ describe('Authentication service', () => {
       // eslint-disable-next-line no-underscore-dangle
       sinon.assert.calledWith(stub, loggedInUser._id);
     }));
+<<<<<<< HEAD
     it('null user data, should throw exception', async () => {
       await expect(AuthService.logoutAll({})).to.be.rejectedWith(Error);
     });
+=======
+>>>>>>> 847725e... Add controllers, update routes, middleware
     it('something went wrong, should throw exception', test(async function testFailedLogoutAll() {
       this.stub(UserModel, 'removeAllTokens').throws(error);
       const stub = this.stub(AuthService, 'logoutAll');
