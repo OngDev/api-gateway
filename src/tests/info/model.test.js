@@ -18,6 +18,16 @@ describe('Info model', () => {
           isGoodBoy: true,
         },
       },
+      {
+        key: 'Ông Bùi Minh Chiến',
+        val: {
+          name: 'Ông Chiến',
+          class: '58TH1',
+          school: 'Đại học Thủy Lợi',
+          handsome: true,
+          isGoodBoy: true,
+        },
+      },
     ]);
   });
   afterEach(async () => {
@@ -71,6 +81,34 @@ describe('Info model', () => {
       expect(info.val.name).to.be.equal('Bùi Minh Chiến');
       expect(info.val.class).to.be.equal('58TH1');
       expect(info.val.handsome).to.be.equal(true);
+    });
+  });
+  describe('Update info function', async () => {
+    it('Update info successfully', async () => {
+      const info = await InfoModel.findOne({ key: 'Ông dev' });
+      info.val.name = 'Anh Duy';
+      info.val.handsome = false;
+      const infoSaved = await info.save();
+      expect(infoSaved.val.name).to.be.equal('Anh Duy');
+      expect(infoSaved.val.class).to.be.equal('58TH1');
+      expect(infoSaved.val.handsome).to.be.equal(false);
+    });
+    it('Update info duplicated', async () => {
+      const info = await InfoModel.findOne({ key: 'Ông dev' });
+      info.key = 'Ông Bùi Minh Chiến';
+      try {
+        await info.save();
+      } catch (error) {
+        expect(error.code).to.equal(11000);
+      }
+    });
+  });
+  describe('Delete info function', async () => {
+    it('Delete info successfully', async () => {
+      const info = await InfoModel.findOne({ key: 'Ông dev' });
+      await info.remove();
+      const infoRemoved = await InfoModel.findOne({ key: 'Ông Dev' });
+      expect(infoRemoved).to.equal(null);
     });
   });
 });
