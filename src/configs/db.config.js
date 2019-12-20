@@ -6,7 +6,7 @@ const connectDatabase = () => {
   mongoose.Promise = global.Promise;
   // Connecting to the database
   mongoose
-    .connect(process.env.MONGO_URL, {
+    .connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, {
       useNewUrlParser: true,
     })
     .then(() => {
