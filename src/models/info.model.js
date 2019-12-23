@@ -11,7 +11,7 @@ const InfoSchema = new Schema({
   val: Schema.Types.Mixed,
 });
 
-const InfoModel = mongoose.model('Infos', InfoSchema, 'infos');
+const InfoModel = mongoose.model('Info', InfoSchema, 'info');
 
 
 export default InfoModel;

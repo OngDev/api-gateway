@@ -1,10 +1,6 @@
-import chai, { expect } from 'chai';
-import dotenv from 'dotenv';
-import ChaiAsPromised from 'chai-as-promised';
+import { expect } from 'chai';
 import InfoModel from '../../models/info.model';
 
-dotenv.config();
-chai.use(ChaiAsPromised);
 describe('Info model', () => {
   beforeEach(async () => {
     await InfoModel.insertMany([
@@ -70,7 +66,7 @@ describe('Info model', () => {
       info.validate((err) => {
         expect(err.name).to.equal('ValidationError');
         expect(err.message).to.equal(
-          'Infos validation failed: key: Path `key` is required.',
+          'Info validation failed: key: Path `key` is required.',
         );
       });
     });
