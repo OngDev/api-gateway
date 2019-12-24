@@ -3,10 +3,12 @@ import logger from '../logger/logger';
 
 /* istanbul ignore next */
 const connectDatabase = () => {
+  const mongoDbUrl = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
+  logger.info(`Connecting to ${mongoDbUrl}`);
   mongoose.Promise = global.Promise;
   // Connecting to the database
   mongoose
-    .connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, {
+    .connect(mongoDbUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
