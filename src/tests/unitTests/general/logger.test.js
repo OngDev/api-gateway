@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import sinon from 'sinon';
-import logger from '../../logger/logger';
+import logger from '../../../logger/logger';
 
 const assert = require('assert');
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -56,18 +58,25 @@ UserSchema.pre('save', async function hashPassword(next) {
 UserSchema.methods.generateAuthToken = async function generateAuthToken() {
   // Generate an auth token for the user
   const user = this;
-  // eslint-disable-next-line no-underscore-dangle
   const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
-  user.tokens = user.tokens.concat({ token });
-  await user.save();
+  await UserModel.findByIdAndUpdate(user._id, { $set: { tokens: user.tokens.concat({ token }) } });
   return token;
+};
+
+// This hook is already tested, just cannot create an individual tests for it
+/* istanbul ignore next */
+UserSchema.statics.removeAllTokens = async function removeAllTokens(userId) {
+  try {
+    await UserModel.findByIdAndUpdate(userId, { $set: { tokens: [] } });
+  } catch (error) {
+    throw new Error('Removing tokens failed!');
+  }
 };
 
 // This hook is already tested, just cannot create an individual tests for it
 /* istanbul ignore next */
 UserSchema.statics.findByCredentials = async function findByCredentials(email, password) {
   // Search for a user by email and password.
-  // eslint-disable-next-line no-use-before-define
   const user = await UserModel.findOne({ email });
   if (!user) {
     throw new Error('Login failed! Check authentication credentials');
