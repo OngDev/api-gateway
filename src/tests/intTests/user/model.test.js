@@ -3,12 +3,12 @@ import chai, { expect } from 'chai';
 import ChaiAsPromised from 'chai-as-promised';
 import dotenv from 'dotenv';
 
-import UserModel from '../../models/user.model';
+import UserModel from '../../../models/user.model';
 
 chai.use(ChaiAsPromised);
 dotenv.config();
 
-describe('User model', () => {
+describe('### User model IT', () => {
   afterEach(async () => {
     await UserModel.deleteMany({});
   });
@@ -193,6 +193,22 @@ describe('User model', () => {
       // eslint-disable-next-line no-underscore-dangle
       await UserModel.findByIdAndUpdate(user._id, { fullName: 'Chien Minh Bui' });
       await updateHelper();
+    });
+  });
+
+  describe('remove all tokens function', () => {
+    it('call remove all, tokens array should be empyy', async () => {
+      const user = new UserModel({
+        email: 'chienbm62@gmail.com',
+        fullName: 'Bui Minh Chien',
+        password: 'Domaybiet!23',
+      });
+      await user.save();
+      await user.generateAuthToken();
+      await user.generateAuthToken();
+      // eslint-disable-next-line no-underscore-dangle
+      await UserModel.removeAllTokens(user._id);
+      expect(user.tokens.length).equals(0);
     });
   });
 });

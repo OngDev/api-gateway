@@ -4,9 +4,15 @@ const AuthService = {};
 
 AuthService.login = async ({ email, password }) => {
   try {
-    const user = await UserModel.findByCredentials(email, password);
-    const token = await user.generateAuthToken();
-    return { user, token };
+    const userData = await UserModel.findByCredentials(email, password);
+    const token = await userData.generateAuthToken();
+    return {
+      user: {
+        email: userData.email,
+        fullName: userData.fullName,
+      },
+      token,
+    };
   } catch (error) {
     throw Error(error.message);
   }
@@ -14,10 +20,35 @@ AuthService.login = async ({ email, password }) => {
 
 AuthService.register = async (newUser) => {
   try {
-    const user = new UserModel(newUser);
+    const userData = new UserModel(newUser);
+    await userData.save();
+    const token = await userData.generateAuthToken();
+    return {
+      user: {
+        email: userData.email,
+        fullName: userData.fullName,
+      },
+      token,
+    };
+  } catch (error) {
+    throw Error(error.message);
+  }
+};
+
+AuthService.logout = async ({ user, foundToken }) => {
+  try {
+    // eslint-disable-next-line no-param-reassign
+    user.tokens = user.tokens.filter((token) => token.token !== foundToken);
     await user.save();
-    const token = await user.generateAuthToken();
-    return { user, token };
+  } catch (error) {
+    throw Error(error.message);
+  }
+};
+
+AuthService.logoutAll = async ({ user }) => {
+  try {
+    // eslint-disable-next-line no-underscore-dangle
+    await UserModel.removeAllTokens(user._id);
   } catch (error) {
     throw Error(error.message);
   }

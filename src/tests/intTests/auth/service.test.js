@@ -3,13 +3,13 @@ import chai, { expect } from 'chai';
 import ChaiAsPromised from 'chai-as-promised';
 import dotenv from 'dotenv';
 
-import UserModel from '../../models/user.model';
-import AuthService from '../../services/auth.service';
+import UserModel from '../../../models/user.model';
+import AuthService from '../../../services/auth.service';
 
 chai.use(ChaiAsPromised);
 dotenv.config();
 
-describe('Authentication service', () => {
+describe('### Authentication service IT', () => {
   describe('Register function', () => {
     after(() => {
       UserModel.deleteMany({});
@@ -24,7 +24,8 @@ describe('Authentication service', () => {
       const data = await AuthService.register(registerPayload);
       expect(data.token).to.be.exist;
       expect(data.user).to.be.exist;
-      expect(data.user.tokens[0].token).equal(data.token);
+      expect(data.user.fullName).equal('test user');
+      expect(data.user.email).equal('test@mail.com');
     });
 
     it('when email is empty, should receive an Email is required error', async () => {
@@ -119,6 +120,41 @@ describe('Authentication service', () => {
       await expect(AuthService.login(authInfo))
         .to.eventually.be.rejectedWith('Login failed! Check authentication credentials')
         .and.be.an.instanceOf(Error);
+    });
+  });
+  describe('Logout function', () => {
+    let token;
+    let user;
+    beforeEach(async () => {
+      user = new UserModel({
+        email: 'chienbm62@gmail.com',
+        fullName: 'Bui Minh Chien',
+        password: 'Domaybiet!23',
+      });
+      await user.save();
+      token = await AuthService.login({
+        email: 'chienbm62@gmail.com',
+        password: 'Domaybiet!23',
+      }).token;
+    });
+    afterEach(async () => {
+      await UserModel.deleteMany({});
+    });
+
+    it('logout and cannot find by Token', async () => {
+      await AuthService.logout({
+        user,
+        foundToken: token,
+      });
+      expect(user.tokens.indexOf({ token })).equals(-1);
+    });
+    it('logout all and tokens array has no element', async () => {
+      await AuthService.login({
+        email: 'chienbm62@gmail.com',
+        password: 'Domaybiet!23',
+      });
+      await AuthService.logoutAll({ user });
+      expect(user.tokens.length).equals(0);
     });
   });
 });
