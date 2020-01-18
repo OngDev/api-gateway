@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import InfoModel from '../../models/info.model';
+import InfoModel from '../../../models/info.model';
 
 describe('Info model', () => {
   beforeEach(async () => {
