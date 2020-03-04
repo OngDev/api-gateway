@@ -4,7 +4,7 @@ const InfoController = {};
 
 InfoController.read = async (req, res) => {
   try {
-    const infoData = await InfoService.read();
+    const infoData = await InfoService.read(req.body.key);
     return res.status(200).json({ status: 200, data: infoData });
   } catch (error) {
     return res.status(400).json({ status: 400, message: error.message });
