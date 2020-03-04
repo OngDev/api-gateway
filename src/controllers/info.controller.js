@@ -14,7 +14,7 @@ InfoController.read = async (req, res) => {
 InfoController.update = async (req, res) => {
   try {
     const { key } = req.body;
-    const infoData = await InfoService.read(key, req.body);
+    const infoData = await InfoService.update(key, req.body);
     return res
       .status(200)
       .json({ status: 200, data: infoData, message: 'Updated!' });
@@ -39,7 +39,7 @@ InfoController.remove = async (req, res) => {
     const infoData = await InfoService.remove(req.body);
     return res
       .status(200)
-      .json({ status: 200, data: infoData, message: 'Created!' });
+      .json({ status: 200, data: infoData, message: 'Removed!' });
   } catch (error) {
     return res.status(400).json({ status: 400, message: error.message });
   }
