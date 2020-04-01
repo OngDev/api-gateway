@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import UserModel from '../models/user.model';
 import logger from '../logger/logger';
 
 /* istanbul ignore next */

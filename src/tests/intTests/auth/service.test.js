@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-expressions */
 import chai, { expect } from 'chai';
 import ChaiAsPromised from 'chai-as-promised';
-import dotenv from 'dotenv';
+import dotEnvWithDefaults from 'dotenv-defaults';
 
 import UserModel from '../../../models/user.model';
 import AuthService from '../../../services/auth.service';
 
 chai.use(ChaiAsPromised);
-dotenv.config();
+dotEnvWithDefaults.config();
 
 describe('### Authentication service IT', () => {
   describe('Register function', () => {
