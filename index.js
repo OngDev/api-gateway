@@ -5,12 +5,12 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { join } from 'path';
 import rfs from 'rotating-file-stream';
-import dotenv from 'dotenv';
+import dotEnvWithDefault from 'dotenv-defaults';
 import logger from './src/logger/logger';
 import connectDatabase from './src/configs/db.config';
 
 /* istanbul ignore next */
-dotenv.config();
+dotEnvWithDefault.config();
 
 // configure isProduction variable
 const isProduction = process.env.NODE_ENV === 'production';
